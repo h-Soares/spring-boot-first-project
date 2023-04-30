@@ -34,4 +34,10 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.CREATED).
                body(departmentService.insert(departmentInsertDTO));
     }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<Void> deleteById(@PathVariable String uuid) {
+        departmentService.deleteById(uuid);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -46,4 +46,16 @@ public class DepartmentService {
         department = departmentRepository.save(department);
         return new DepartmentDTO(department);
     }
+
+    @Transactional
+    public void deleteById(String uuid) {
+        try {
+            Optional<Department> department = departmentRepository.findById(UUID.fromString(uuid));
+            if(department.isEmpty())
+                throw new EntityNotFoundException("Department not found");
+            departmentRepository.delete(department.get());
+        }catch(IllegalArgumentException e) {
+            throw new EntityNotFoundException("Illegal department UUID format");
+        }
+    }
 }
