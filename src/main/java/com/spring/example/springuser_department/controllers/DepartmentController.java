@@ -3,6 +3,7 @@ package com.spring.example.springuser_department.controllers;
 import com.spring.example.springuser_department.dtos.DepartmentDTO;
 import com.spring.example.springuser_department.dtos.DepartmentInsertDTO;
 import com.spring.example.springuser_department.services.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<DepartmentDTO> insert(@RequestBody DepartmentInsertDTO departmentInsertDTO) {
+    public ResponseEntity<DepartmentDTO> insert(@RequestBody @Valid DepartmentInsertDTO departmentInsertDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).
                body(departmentService.insert(departmentInsertDTO));
     }
@@ -42,7 +43,7 @@ public class DepartmentController {
 
     @PutMapping("/{uuid}")
     public ResponseEntity<DepartmentDTO> updateById(@PathVariable String uuid,
-           @RequestBody DepartmentInsertDTO departmentInsertDTO) {
+           @RequestBody @Valid DepartmentInsertDTO departmentInsertDTO) {
         return ResponseEntity.ok(departmentService.updateById(uuid, departmentInsertDTO));
     }
 }
