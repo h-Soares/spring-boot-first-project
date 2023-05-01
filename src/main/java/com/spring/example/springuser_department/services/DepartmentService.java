@@ -41,7 +41,7 @@ public class DepartmentService {
         if(departmentRepository.existsByName(departmentInsertDTO.getName()))
             throw new EntityExistsException("Name already exists");
 
-        Department department = new Department(departmentInsertDTO.getName());
+        Department department = departmentInsertDTOToDepartment(departmentInsertDTO);
         department = departmentRepository.save(department);
         return new DepartmentDTO(department);
     }
@@ -73,6 +73,12 @@ public class DepartmentService {
         }catch(IllegalArgumentException e) {
             throw new EntityNotFoundException("Illegal department UUID format");
         }
+    }
+
+    private Department departmentInsertDTOToDepartment(DepartmentInsertDTO departmentInsertDTO) {
+        Department department = new Department();
+        department.setName(departmentInsertDTO.getName());
+        return department;
     }
 
     private void updateDepartment(Department department, DepartmentInsertDTO departmentInsertDTO) {

@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService { //MORE TO DO: DepartmentService, DepartmentController, Validations, etc.
+public class UserService { //MORE TO DO: Validations, Pagination, etc.
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
