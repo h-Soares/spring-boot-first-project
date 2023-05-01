@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -39,5 +38,11 @@ public class DepartmentController {
     public ResponseEntity<Void> deleteById(@PathVariable String uuid) {
         departmentService.deleteById(uuid);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<DepartmentDTO> updateById(@PathVariable String uuid,
+           @RequestBody DepartmentInsertDTO departmentInsertDTO) {
+        return ResponseEntity.ok(departmentService.updateById(uuid, departmentInsertDTO));
     }
 }
