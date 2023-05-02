@@ -30,7 +30,7 @@ public class UserInsertDTO implements Serializable {
 
     //FIX IT
     @NotNull(message = "UUID can not be null")
-    @Pattern(regexp = REGEX_UUID, message = "Invalid UUID format") //works for invalid UUID
+//    @Pattern(regexp = REGEX_UUID, message = "Invalid UUID format") //works for invalid UUID
     private UUID departmentId;
 
     public UserInsertDTO() {
