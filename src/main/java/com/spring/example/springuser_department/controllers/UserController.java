@@ -3,6 +3,7 @@ package com.spring.example.springuser_department.controllers;
 import com.spring.example.springuser_department.dtos.UserDTO;
 import com.spring.example.springuser_department.dtos.UserInsertDTO;
 import com.spring.example.springuser_department.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> insert(@RequestBody @Valid UserInsertDTO userInsertDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.insert(userInsertDTO));
     }
 
@@ -41,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<UserDTO> updateById(@PathVariable String uuid, @RequestBody UserInsertDTO userInsertDTO) {
+    public ResponseEntity<UserDTO> updateById(@PathVariable String uuid, @RequestBody @Valid
+                                              UserInsertDTO userInsertDTO) {
         return ResponseEntity.ok(userService.updateById(uuid, userInsertDTO));
     }
 }

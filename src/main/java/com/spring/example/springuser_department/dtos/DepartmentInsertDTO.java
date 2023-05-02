@@ -12,8 +12,8 @@ public class DepartmentInsertDTO implements Serializable {
     private static final String REGEX = "^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$";
 
     @NotBlank(message = "Name can not be null or empty")
-    @Pattern(regexp = REGEX, message = "Invalid name")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @Pattern(regexp = REGEX, message = "Invalid name")
     private String name;
 
     public DepartmentInsertDTO() {
