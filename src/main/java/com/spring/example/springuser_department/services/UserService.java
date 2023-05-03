@@ -77,7 +77,7 @@ public class UserService { //MORE TO DO: Validations, Pagination, etc.
 
     private User userInsertDTOToUser(UserInsertDTO userInsertDTO) {
         Department department = new Department();
-        department.setID(userInsertDTO.getDepartmentId()); //searched by JPA
+        department.setID(UUID.fromString(userInsertDTO.getDepartmentId())); //searched by JPA
 
         User user = new User();
         user.setName(userInsertDTO.getName());
@@ -90,7 +90,7 @@ public class UserService { //MORE TO DO: Validations, Pagination, etc.
 
     private void updateUser(User user, UserInsertDTO userInsertDTO) {
         Department department = new Department();
-        department.setID(userInsertDTO.getDepartmentId());
+        department.setID(UUID.fromString(userInsertDTO.getDepartmentId()));
 
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());

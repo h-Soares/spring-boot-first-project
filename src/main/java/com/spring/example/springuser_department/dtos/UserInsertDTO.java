@@ -3,7 +3,6 @@ package com.spring.example.springuser_department.dtos;
 import jakarta.validation.constraints.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.UUID;
 
 public class UserInsertDTO implements Serializable {
     @Serial
@@ -28,15 +27,14 @@ public class UserInsertDTO implements Serializable {
             "The password must contain at least 6 characters, with at least one number.")
     private String password;
 
-    //FIX IT
-    @NotNull(message = "UUID can not be null")
-//    @Pattern(regexp = REGEX_UUID, message = "Invalid UUID format") //works for invalid UUID
-    private UUID departmentId;
+    @NotBlank(message = "UUID can not be null or empty")
+    @Pattern(regexp = REGEX_UUID, message = "Illegal department UUID format")
+    private String departmentId;
 
     public UserInsertDTO() {
     }
 
-    public UserInsertDTO(String name, String email, String password, UUID departmentId) {
+    public UserInsertDTO(String name, String email, String password, String departmentId) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -67,11 +65,11 @@ public class UserInsertDTO implements Serializable {
         this.password = password;
     }
 
-    public UUID getDepartmentId() {
+    public String getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(UUID departmentId) {
+    public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
     }
 }
