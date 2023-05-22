@@ -15,11 +15,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService { //MORE TO DO: Validations, Pagination, etc.
+public class UserService { //MORE TO DO: Pagination, etc.
     private final UserRepository userRepository;
+    private final DepartmentService departmentService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, DepartmentService departmentService) {
         this.userRepository = userRepository;
+        this.departmentService = departmentService;
     }
 
     public List<UserDTO> findAll() {
@@ -76,8 +78,12 @@ public class UserService { //MORE TO DO: Validations, Pagination, etc.
     }
 
     private User userInsertDTOToUser(UserInsertDTO userInsertDTO) {
+        UUID uuid = UUID.fromString(userInsertDTO.getDepartmentId());
+        if(!departmentService.existsByUUID(uuid))
+            throw new EntityNotFoundException("Department not found");
+
         Department department = new Department();
-        department.setID(UUID.fromString(userInsertDTO.getDepartmentId())); //searched by JPA
+        department.setID(uuid); //searched by JPA
 
         User user = new User();
         user.setName(userInsertDTO.getName());

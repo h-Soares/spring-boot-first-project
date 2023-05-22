@@ -75,6 +75,10 @@ public class DepartmentService {
         }
     }
 
+    public boolean existsByUUID(UUID uuid) {
+        return departmentRepository.existsById(uuid);
+    }
+
     private Department departmentInsertDTOToDepartment(DepartmentInsertDTO departmentInsertDTO) {
         Department department = new Department();
         department.setName(departmentInsertDTO.getName());
