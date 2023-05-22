@@ -5,9 +5,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.Instant;
+import java.util.List;
 
 @ControllerAdvice
 public class ControllersExceptionHandler {
@@ -24,6 +26,17 @@ public class ControllersExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(standardError);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardInsertDTOError> methodArgumentNotValid(MethodArgumentNotValidException e,
+        HttpServletRequest request) {
+        List<String> errors = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .sorted().toList();
+        StandardInsertDTOError insertDTOError = getStandardInsertDTOError(HttpStatus.BAD_REQUEST, e,
+                request, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(insertDTOError);
+    }
+
     private StandardError getStandardError(HttpStatus httpStatus, Exception e,
         HttpServletRequest request) {
         StandardError standardError = new StandardError();
@@ -32,5 +45,15 @@ public class ControllersExceptionHandler {
         standardError.setError(e.getMessage());
         standardError.setPath(request.getRequestURI());
         return standardError;
+    }
+
+    private StandardInsertDTOError getStandardInsertDTOError(HttpStatus httpStatus, Exception e,
+            HttpServletRequest request, List<String> errors) {
+        StandardInsertDTOError insertDTOError = new StandardInsertDTOError();
+        insertDTOError.setTimestamp(Instant.now());
+        insertDTOError.setStatus(httpStatus.value());
+        insertDTOError.setErrors(errors);
+        insertDTOError.setPath(request.getRequestURI());
+        return insertDTOError;
     }
 }

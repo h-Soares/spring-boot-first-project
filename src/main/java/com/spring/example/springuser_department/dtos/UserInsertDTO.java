@@ -1,6 +1,12 @@
 package com.spring.example.springuser_department.dtos;
 
-import jakarta.validation.constraints.*;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -13,7 +19,7 @@ public class UserInsertDTO implements Serializable {
     private static final String REGEX_UUID = "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89aAbB]" +
                                              "[a-fA-F0-9]{3}-[a-fA-F0-9]{12}$";
 
-    @NotBlank(message = "Name can not be null or empty")
+    @NotNull(message = "Name can not be null")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 65 characters")
     @Pattern(regexp = REGEX_NAME, message = "Invalid name")
     private String name;
@@ -22,7 +28,7 @@ public class UserInsertDTO implements Serializable {
     @Email(message = "Invalid email")
     private String email;
 
-    @NotBlank(message = "Password can not be null or empty")
+    @NotNull(message = "Password can not be null")
     @Pattern(regexp = REGEX_PASSWORD, message =
             "The password must contain at least 6 characters, with at least one number.")
     private String password;

@@ -1,6 +1,6 @@
 package com.spring.example.springuser_department.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.io.Serial;
@@ -11,7 +11,7 @@ public class DepartmentInsertDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final String REGEX = "^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$";
 
-    @NotBlank(message = "Name can not be null or empty")
+    @NotNull(message = "Name can not be null")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     @Pattern(regexp = REGEX, message = "Invalid name")
     private String name;
