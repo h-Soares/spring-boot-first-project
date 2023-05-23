@@ -86,6 +86,10 @@ public class DepartmentService {
     }
 
     private void updateDepartment(Department department, DepartmentInsertDTO departmentInsertDTO) {
+        if(!departmentInsertDTO.getName().equals(department.getName()) && departmentRepository.
+                                                   existsByName(departmentInsertDTO.getName()))
+            throw new EntityExistsException("Name already exists");
+
         department.setName(departmentInsertDTO.getName());
     }
 }

@@ -95,8 +95,16 @@ public class UserService { //MORE TO DO: Pagination, etc.
     }
 
     private void updateUser(User user, UserInsertDTO userInsertDTO) {
+        UUID uuid = UUID.fromString(userInsertDTO.getDepartmentId());
+        if(!departmentService.existsByUUID(uuid))
+            throw new EntityNotFoundException("Department not found");
+
+        if(!userInsertDTO.getEmail().equals(user.getEmail()) && userRepository.
+                                       existsByEmail(userInsertDTO.getEmail()))
+            throw new EntityExistsException("Email already exists");
+
         Department department = new Department();
-        department.setID(UUID.fromString(userInsertDTO.getDepartmentId()));
+        department.setID(uuid); //searched by JPA
 
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());
