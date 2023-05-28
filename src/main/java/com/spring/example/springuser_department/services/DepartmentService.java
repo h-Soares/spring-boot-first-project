@@ -66,6 +66,9 @@ public class DepartmentService {
                 throw new EntityNotFoundException("Department not found");
 
             Department department = optionalDepartment.get();
+            if(!departmentInsertDTO.getName().equals(department.getName()) && departmentRepository.
+                                                       existsByName(departmentInsertDTO.getName()))
+                throw new EntityExistsException("Name already exists");
             updateDepartment(department, departmentInsertDTO);
             department = departmentRepository.save(department);
 
@@ -86,10 +89,6 @@ public class DepartmentService {
     }
 
     private void updateDepartment(Department department, DepartmentInsertDTO departmentInsertDTO) {
-        if(!departmentInsertDTO.getName().equals(department.getName()) && departmentRepository.
-                                                   existsByName(departmentInsertDTO.getName()))
-            throw new EntityExistsException("Name already exists");
-
         department.setName(departmentInsertDTO.getName());
     }
 }

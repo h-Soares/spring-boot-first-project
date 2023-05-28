@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserService { //MORE TO DO: Pagination, etc.
+public class UserService {
     private final UserRepository userRepository;
     private final DepartmentService departmentService;
 
@@ -44,6 +44,9 @@ public class UserService { //MORE TO DO: Pagination, etc.
         if(userRepository.existsByEmail(userInsertDTO.getEmail()))
             throw new EntityExistsException("Email already exists");
 
+        if(!departmentService.existsByUUID(UUID.fromString(userInsertDTO.getDepartmentId())))
+            throw new EntityNotFoundException("Department not found");
+
         User user = userRepository.save(userInsertDTOToUser(userInsertDTO));
         return new UserDTO(user);
     }
@@ -67,23 +70,25 @@ public class UserService { //MORE TO DO: Pagination, etc.
             if(optionalUser.isEmpty())
                 throw new EntityNotFoundException("User not found");
 
+            if(!departmentService.existsByUUID(UUID.fromString(userInsertDTO.getDepartmentId())))
+                throw new EntityNotFoundException("Department not found");
+
             User user = optionalUser.get();
+            if(!userInsertDTO.getEmail().equals(user.getEmail()) && userRepository.
+                                           existsByEmail(userInsertDTO.getEmail()))
+                throw new EntityExistsException("Email already exists");
             updateUser(user, userInsertDTO);
             user = userRepository.save(user);
 
             return new UserDTO(user);
-        }catch(IllegalArgumentException e) {
+        }catch(IllegalArgumentException e) { //to validate the uuid in API request, not userInsertDTO
             throw new EntityNotFoundException("Illegal user UUID format");
         }
     }
 
     private User userInsertDTOToUser(UserInsertDTO userInsertDTO) {
-        UUID uuid = UUID.fromString(userInsertDTO.getDepartmentId());
-        if(!departmentService.existsByUUID(uuid))
-            throw new EntityNotFoundException("Department not found");
-
         Department department = new Department();
-        department.setID(uuid); //searched by JPA
+        department.setID(UUID.fromString(userInsertDTO.getDepartmentId())); //searched by JPA
 
         User user = new User();
         user.setName(userInsertDTO.getName());
@@ -95,16 +100,8 @@ public class UserService { //MORE TO DO: Pagination, etc.
     }
 
     private void updateUser(User user, UserInsertDTO userInsertDTO) {
-        UUID uuid = UUID.fromString(userInsertDTO.getDepartmentId());
-        if(!departmentService.existsByUUID(uuid))
-            throw new EntityNotFoundException("Department not found");
-
-        if(!userInsertDTO.getEmail().equals(user.getEmail()) && userRepository.
-                                       existsByEmail(userInsertDTO.getEmail()))
-            throw new EntityExistsException("Email already exists");
-
         Department department = new Department();
-        department.setID(uuid); //searched by JPA
+        department.setID(UUID.fromString(userInsertDTO.getDepartmentId())); //searched by JPA
 
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());
