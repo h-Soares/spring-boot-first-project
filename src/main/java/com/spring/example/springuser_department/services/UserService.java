@@ -7,12 +7,12 @@ import com.spring.example.springuser_department.entities.User;
 import com.spring.example.springuser_department.repositories.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService { //MORE TO DO: Pagination, etc.
@@ -24,8 +24,8 @@ public class UserService { //MORE TO DO: Pagination, etc.
         this.departmentService = departmentService;
     }
 
-    public List<UserDTO> findAll() {
-        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+    public Page<UserDTO> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable).map(UserDTO::new);
     }
 
     public UserDTO findById(String uuid) {

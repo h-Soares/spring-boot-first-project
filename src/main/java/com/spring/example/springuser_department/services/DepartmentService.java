@@ -6,12 +6,12 @@ import com.spring.example.springuser_department.entities.Department;
 import com.spring.example.springuser_department.repositories.DepartmentRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService {
@@ -21,8 +21,8 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
     }
 
-    public List<DepartmentDTO> findAll() {
-        return departmentRepository.findAll().stream().map(DepartmentDTO::new).collect(Collectors.toList());
+    public Page<DepartmentDTO> findAll(Pageable pageable) {
+        return departmentRepository.findAll(pageable).map(DepartmentDTO::new);
     }
 
     public DepartmentDTO findByID(String uuid) {

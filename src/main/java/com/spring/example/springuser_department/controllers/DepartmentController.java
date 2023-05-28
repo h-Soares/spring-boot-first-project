@@ -4,11 +4,13 @@ import com.spring.example.springuser_department.dtos.DepartmentDTO;
 import com.spring.example.springuser_department.dtos.DepartmentInsertDTO;
 import com.spring.example.springuser_department.services.DepartmentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @Controller
 @RequestMapping("/departments")
@@ -20,8 +22,8 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentDTO>> findAll() {
-        return ResponseEntity.ok(departmentService.findAll());
+    public ResponseEntity<Page<DepartmentDTO>> findAll(@PageableDefault(sort = "name") Pageable pageable) {
+        return ResponseEntity.ok(departmentService.findAll(pageable));
     }
 
     @GetMapping("/{uuid}")
