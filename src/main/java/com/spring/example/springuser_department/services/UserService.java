@@ -9,6 +9,7 @@ import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
@@ -93,7 +94,9 @@ public class UserService {
         User user = new User();
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());
-        user.setPassword(userInsertDTO.getPassword());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(userInsertDTO.getPassword());
+        user.setPassword(encryptedPassword);
         user.setDepartment(department);
 
         return user;
