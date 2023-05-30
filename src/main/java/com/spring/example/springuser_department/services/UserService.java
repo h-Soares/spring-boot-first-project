@@ -94,9 +94,7 @@ public class UserService {
         User user = new User();
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(userInsertDTO.getPassword());
-        user.setPassword(encryptedPassword);
+        user.setPassword(encryptPassword(userInsertDTO.getPassword()));
         user.setDepartment(department);
 
         return user;
@@ -108,7 +106,12 @@ public class UserService {
 
         user.setName(userInsertDTO.getName());
         user.setEmail(userInsertDTO.getEmail());
-        user.setPassword(userInsertDTO.getPassword());
+        user.setPassword(encryptPassword(userInsertDTO.getPassword()));
         user.setDepartment(department);
+    }
+
+    private String encryptPassword(String password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }
