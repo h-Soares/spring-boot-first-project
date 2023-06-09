@@ -30,14 +30,10 @@ public class UserService {
     }
 
     public UserDTO findById(String uuid) {
-        try {
-            Optional<User> user = userRepository.findById(UUID.fromString(uuid));
-            if(user.isEmpty())
-                throw new EntityNotFoundException("User not found");
-            return new UserDTO(user.get());
-        }catch(IllegalArgumentException e) { //this is throws when STRING type (not UUID) is in parameter
-            throw new EntityNotFoundException("Illegal user UUID format");
-        }
+        Optional<User> user = userRepository.findById(UUID.fromString(uuid));
+        if(user.isEmpty())
+            throw new EntityNotFoundException("User not found");
+        return new UserDTO(user.get());
     }
 
     @Transactional
@@ -54,37 +50,29 @@ public class UserService {
 
     @Transactional
     public void deleteById(String uuid) {
-        try {
-            Optional<User> user = userRepository.findById(UUID.fromString(uuid));
-            if(user.isEmpty())
-                throw new EntityNotFoundException("User not found");
-            userRepository.delete(user.get());
-        }catch(IllegalArgumentException e) {
-            throw new EntityNotFoundException("Illegal user UUID format");
-        }
+        Optional<User> user = userRepository.findById(UUID.fromString(uuid));
+        if(user.isEmpty())
+            throw new EntityNotFoundException("User not found");
+        userRepository.delete(user.get());
     }
 
     @Transactional
     public UserDTO updateById(String uuid, UserInsertDTO userInsertDTO) {
-        try {
-            Optional<User> optionalUser = userRepository.findById(UUID.fromString(uuid));
-            if(optionalUser.isEmpty())
-                throw new EntityNotFoundException("User not found");
+        Optional<User> optionalUser = userRepository.findById(UUID.fromString(uuid));
+        if(optionalUser.isEmpty())
+            throw new EntityNotFoundException("User not found");
 
-            if(!departmentService.existsByUUID(UUID.fromString(userInsertDTO.getDepartmentId())))
-                throw new EntityNotFoundException("Department not found");
+        if(!departmentService.existsByUUID(UUID.fromString(userInsertDTO.getDepartmentId())))
+            throw new EntityNotFoundException("Department not found");
 
-            User user = optionalUser.get();
-            if(!userInsertDTO.getEmail().equals(user.getEmail()) && userRepository.
+        User user = optionalUser.get();
+        if(!userInsertDTO.getEmail().equals(user.getEmail()) && userRepository.
                                            existsByEmail(userInsertDTO.getEmail()))
-                throw new EntityExistsException("Email already exists");
-            updateUser(user, userInsertDTO);
-            user = userRepository.save(user);
+            throw new EntityExistsException("Email already exists");
+        updateUser(user, userInsertDTO);
+        user = userRepository.save(user);
 
-            return new UserDTO(user);
-        }catch(IllegalArgumentException e) { //to validate the uuid in API request, not userInsertDTO
-            throw new EntityNotFoundException("Illegal user UUID format");
-        }
+        return new UserDTO(user);
     }
 
     private User userInsertDTOToUser(UserInsertDTO userInsertDTO) {

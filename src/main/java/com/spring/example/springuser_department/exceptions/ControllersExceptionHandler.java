@@ -26,7 +26,13 @@ public class ControllersExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(standardError);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException e, HttpServletRequest request) {
+        StandardError standardError = getStandardError(HttpStatus.BAD_REQUEST, e, request);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(standardError);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class) //thrown by insert DTO's
     public ResponseEntity<StandardInsertDTOError> methodArgumentNotValid(MethodArgumentNotValidException e,
         HttpServletRequest request) {
         List<String> errors = e.getBindingResult().getFieldErrors().stream()

@@ -26,14 +26,10 @@ public class DepartmentService {
     }
 
     public DepartmentDTO findByID(String uuid) {
-        try {
-            Optional<Department> department = departmentRepository.findById(UUID.fromString(uuid));
-            if(department.isEmpty())
-                throw new EntityNotFoundException("Department not found");
-            return new DepartmentDTO(department.get());
-        }catch(IllegalArgumentException e) {
-            throw new EntityNotFoundException("Illegal department UUID format");
-        }
+        Optional<Department> department = departmentRepository.findById(UUID.fromString(uuid));
+        if(department.isEmpty())
+            throw new EntityNotFoundException("Department not found");
+        return new DepartmentDTO(department.get());
     }
 
     @Transactional
@@ -48,34 +44,26 @@ public class DepartmentService {
 
     @Transactional
     public void deleteById(String uuid) {
-        try {
-            Optional<Department> department = departmentRepository.findById(UUID.fromString(uuid));
-            if(department.isEmpty())
-                throw new EntityNotFoundException("Department not found");
-            departmentRepository.delete(department.get());
-        }catch(IllegalArgumentException e) {
-            throw new EntityNotFoundException("Illegal department UUID format");
-        }
+        Optional<Department> department = departmentRepository.findById(UUID.fromString(uuid));
+        if(department.isEmpty())
+            throw new EntityNotFoundException("Department not found");
+        departmentRepository.delete(department.get());
     }
 
     @Transactional
     public DepartmentDTO updateById(String uuid, DepartmentInsertDTO departmentInsertDTO) {
-        try {
-            Optional<Department> optionalDepartment = departmentRepository.findById(UUID.fromString(uuid));
-            if(optionalDepartment.isEmpty())
-                throw new EntityNotFoundException("Department not found");
+        Optional<Department> optionalDepartment = departmentRepository.findById(UUID.fromString(uuid));
+        if(optionalDepartment.isEmpty())
+            throw new EntityNotFoundException("Department not found");
 
-            Department department = optionalDepartment.get();
-            if(!departmentInsertDTO.getName().equals(department.getName()) && departmentRepository.
+        Department department = optionalDepartment.get();
+        if(!departmentInsertDTO.getName().equals(department.getName()) && departmentRepository.
                                                        existsByName(departmentInsertDTO.getName()))
-                throw new EntityExistsException("Name already exists");
-            updateDepartment(department, departmentInsertDTO);
-            department = departmentRepository.save(department);
+            throw new EntityExistsException("Name already exists");
+        updateDepartment(department, departmentInsertDTO);
+        department = departmentRepository.save(department);
 
-            return new DepartmentDTO(department);
-        }catch(IllegalArgumentException e) {
-            throw new EntityNotFoundException("Illegal department UUID format");
-        }
+        return new DepartmentDTO(department);
     }
 
     public boolean existsByUUID(UUID uuid) {

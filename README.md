@@ -2,6 +2,7 @@
 
 Esta é uma API de usuários e departamentos que disponibiliza endpoints para realizar operações de CRUD (Create, Read, Update e Delete).
 Utiliza validações, paginação, criptografia de senhas, etc.
+A API foi documentada.
 
 # Tecnologias utilizadas
 * Maven
@@ -11,3 +12,4 @@ Utiliza validações, paginação, criptografia de senhas, etc.
 * Spring Security
 * Spring Data JPA / Hibernate
 * MySQL
+* Swagger
