@@ -1,0 +1,464 @@
+openapi: 3.0.1
+info:
+  title: Users and departments API
+  description: My first API Restful.
+  contact:
+    name: Linkedin
+    url: https://www.linkedin.com/in/hiago-soares-de-araujo-96840a271
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: DepartmentController
+    description: Department operations
+  - name: UserController
+    description: User operations
+paths:
+  /users/{uuid}:
+    get:
+      tags:
+        - UserController
+      description: Get a user by UUID
+      operationId: findById
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Illegal argument
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: Entity not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+    put:
+      tags:
+        - UserController
+      description: Update a user by UUID
+      operationId: updateById
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInsertDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Invalid arguments
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: Entity not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '409':
+          description: Entity already exists
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+    delete:
+      tags:
+        - UserController
+      description: Delete a user by UUID
+      operationId: deleteById
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid argument
+        '404':
+          description: Entity not found
+  /departments/{uuid}:
+    get:
+      tags:
+        - DepartmentController
+      description: Get a department by UUID
+      operationId: findById_1
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '400':
+          description: Illegal argument
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '404':
+          description: Entity not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+    put:
+      tags:
+        - DepartmentController
+      description: Update a department by UUID
+      operationId: updateById_1
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentInsertDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '400':
+          description: Invalid arguments
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '404':
+          description: Entity not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '409':
+          description: Entity already exists
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+    delete:
+      tags:
+        - DepartmentController
+      description: Delete a department by UUID
+      operationId: deleteById_1
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid argument
+        '404':
+          description: Entity not found
+  /users:
+    get:
+      tags:
+        - UserController
+      description: Get a paginated list of all users
+      operationId: findAll
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUserDTO'
+    post:
+      tags:
+        - UserController
+      description: Insert a new user
+      operationId: insert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInsertDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Invalid arguments
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '404':
+          description: Entity not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '409':
+          description: Entity already exists
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+  /departments:
+    get:
+      tags:
+        - DepartmentController
+      description: Get a paginated list of all departments
+      operationId: findAll_1
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageDepartmentDTO'
+    post:
+      tags:
+        - DepartmentController
+      description: Insert a new department
+      operationId: insert_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepartmentInsertDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '400':
+          description: Invalid arguments
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+        '409':
+          description: Entity already exists
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DepartmentDTO'
+components:
+  schemas:
+    UserInsertDTO:
+      required:
+        - departmentId
+        - email
+        - name
+        - password
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 2
+          pattern: '^(?!.*[#@!0-9])[A-Za-zÀ-ÖØ-öø-ÿ]+(?: [A-Za-zÀ-ÖØ-öø-ÿ]+)*$'
+          type: string
+        email:
+          type: string
+        password:
+          pattern: >-
+            ^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()\-_=+{}\[\]|\\:;"'<>,.?/`~]{6,}$
+          type: string
+        departmentId:
+          pattern: >-
+            ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[1-5][a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}$
+          type: string
+    DepartmentDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+          format: uuid
+    UserDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        id:
+          type: string
+          format: uuid
+        Department:
+          $ref: '#/components/schemas/DepartmentDTO'
+    DepartmentInsertDTO:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 50
+          minLength: 2
+          pattern: '^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$'
+          type: string
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    PageUserDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageDepartmentDTO:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DepartmentDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
