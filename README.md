@@ -13,3 +13,8 @@ A API foi documentada.
 * Spring Data JPA / Hibernate
 * MySQL
 * Swagger
+
+# Documentação
+(No momento, o "Try Out" não funciona)
+
+https://h-soares.github.io/spring-boot-first-project/
