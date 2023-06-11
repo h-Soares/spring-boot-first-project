@@ -7,7 +7,7 @@ info:
     url: https://www.linkedin.com/in/hiago-soares-de-araujo-96840a271
   version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: https://users-and-departments-ap.onrender.com
     description: Generated server url
 tags:
   - name: DepartmentController
