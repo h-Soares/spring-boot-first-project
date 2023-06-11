@@ -7,13 +7,14 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "BINARY(16)")
+    @Column(columnDefinition = "UUID")
     private UUID ID;
     @Column(nullable = false)
     private String name;

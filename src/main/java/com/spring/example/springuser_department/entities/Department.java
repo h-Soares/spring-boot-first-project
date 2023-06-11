@@ -13,7 +13,7 @@ public class Department implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "BINARY(16)")
+    @Column(columnDefinition = "UUID")
     private UUID ID;
     @Column(nullable = false, unique = true)
     private String name;
