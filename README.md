@@ -15,6 +15,4 @@ A API foi documentada.
 * Swagger
 
 # Documentação
-(No momento, o "Try Out" não funciona)
-
-https://h-soares.github.io/spring-boot-first-project/
+* https://h-soares.github.io/spring-boot-first-project/
